@@ -1,6 +1,8 @@
 package com.example.demo.producto;
 
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
 
 import com.example.demo.model.Producto;
 import com.example.demo.repo.ProductoRepo;
@@ -28,6 +30,23 @@ ProductoRepo repo;
   public Producto addProducto(@RequestBody Producto producto) {
     return repo.save(producto);
   }
+
+@GetMapping("/producto/{id}")
+public Optional<Producto> getById(@PathVariable Long id) {
+    return repo.findById(id);
+}
+
+@PutMapping("/producto/{id}")
+public Producto putProduct(@PathVariable Long id, @RequestBody Producto producto) {
+    producto.setId(id);
+    return repo.save(producto);
+}
+
+@DeleteMapping("/producto/{id}")
+public String deleteProduct(@PathVariable("id") Long id) {
+    repo.deleteById(id);
+    return "{\"success\":true}";
+}
 
 }
 
